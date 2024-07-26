@@ -1,6 +1,6 @@
-import { UserData } from "../../repositories/IUserRepository"
 import { UserRepository } from "../../repositories/prisma/UserRepository"
 import { CreateUserService } from "./CreateUserService"
+import { UserDataDAO } from "../../dao/UserDataDAO";
 
 describe("Create a new user", () => {
     let createUserService: CreateUserService;
@@ -35,7 +35,7 @@ describe("Create a new user", () => {
             email: makeEmail(),
             password: "12345678",
             avatarSeed: "luan"
-        } as UserData)
+        } as UserDataDAO)
 
         expect(user).toBeTruthy
         expect(user?.name).toBe('Luan Cardoso')
@@ -50,7 +50,7 @@ describe("Create a new user", () => {
             email: 'luancaardoso10@gmail.com',
             password: "12345678",
             avatarSeed: "luan"
-        } as UserData
+        } as UserDataDAO
 
         await expect(createUserService.execute(userData)).rejects.toEqual(
             new Error('User already exists')

@@ -33,7 +33,7 @@ describe('Requests for user creation', () => {
         expect(response.body).toEqual({success: true})
     })
 
-    it('should return status 400 when user already exists', async() => {
+    it('should return status 409 when user already exists', async() => {
         const response = await request(app).post('/user/sign-up').send({
             name: "Luan Cardoso",
             email: 'luancaardoso10@gmail.com',
@@ -45,7 +45,7 @@ describe('Requests for user creation', () => {
         expect(response.body).toEqual({success: false, message: 'User already exists'})
     })
 
-    it('should return status 400 when user already exists', async() => {
+    it('should return status 400 when missing request info', async() => {
         const response = await request(app).post('/user/sign-up').send({
             name: "Luan Cardoso",
             email: 'luancaardoso10@gmail.com',
@@ -53,6 +53,6 @@ describe('Requests for user creation', () => {
         })
 
         expect(response.statusCode).toBe(400)
-        expect(response.body).toEqual({success: false, message: 'Fill every field'})
+        expect(response.body).toEqual({success: false, message: 'Please fill every field'})
     })
 })

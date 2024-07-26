@@ -13,7 +13,7 @@ class GetVenueService {
             ll: `${lat},${lng}`,
             radius: '8000',
             categoryId: '13000',
-            oauth_token: process.env.foursquareApiToken,
+            oauth_token: process.env.FOURSQUAREAPITOKEN,
             limit: 20,
             query: searchQuery,
         }})

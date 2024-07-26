@@ -1,14 +1,8 @@
 import { UUID } from "crypto";
-
-export interface UserData {
-    id?: UUID
-    name: string,
-    email: string,
-    password: string,
-    avatarSeed: string,
-}
+import { UserDataDAO } from "../dao/UserDataDAO"; 
 
 export interface IUserRepository {
-    create({ name, email, password, avatarSeed } : UserData): Promise<UserData>;
-    getById( uuid: UUID ): UserData;
+    create({ name, email, password, avatarSeed } : UserDataDAO): Promise<UserDataDAO>;
+    getById( uuid: UUID ): UserDataDAO;
+    getByEmail( email: string, password: string ): Promise<UserDataDAO | null>;
 }

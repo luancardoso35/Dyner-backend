@@ -1,12 +1,12 @@
 import { UUID } from "crypto";
-import { IUserRepository, UserData } from "../IUserRepository";
-
+import { IUserRepository } from "../IUserRepository";
 import { PrismaClient } from '@prisma/client'
+import { UserDataDAO } from "../../dao/UserDataDAO"; 
+
 const prisma = new PrismaClient();
 
 export class UserRepository implements IUserRepository {
-
-    async create({ name, email, password, avatarSeed }: UserData): Promise<UserData> {
+    async create({ name, email, password, avatarSeed }: UserDataDAO): Promise<UserDataDAO> {
         const user = await prisma.user.create({
             data: {
                 avatarSeed,
@@ -14,13 +14,26 @@ export class UserRepository implements IUserRepository {
                 email,
                 password,
             }
-        }) as UserData;
+        }) as UserDataDAO;
 
         return user;
     }
 
-    getById(uuid: UUID): UserData {
+    getById(uuid: UUID): UserDataDAO {
         throw new Error("Method not implemented.");
     }
 
+    async getByEmail(email: string, password: string): Promise<UserDataDAO | null> {
+        const user = await prisma.user.findFirst({
+            where: {
+                email,
+            }
+        })
+
+        if (user) {
+            return user as UserDataDAO;
+        }
+
+        return null;
+    }
 }

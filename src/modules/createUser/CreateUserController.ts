@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
 import { CreateUserService } from "./CreateUserService";
-import { UserData } from "../../repositories/IUserRepository";
+import { UserDataDAO } from "../../dao/UserDataDAO";
 
 class CreateUserController {
     constructor(private createUserService: CreateUserService) {}
 
     async handle(request: Request, response: Response) {
+        if (Object.keys(request.body).length !== 4) {
+            response.status(400).json({success: false, message: "Please fill every field"})
+            return
+        }
+        
         const { name, email, password, avatarSeed } = request.body
         try {
-            const user = await this.createUserService.execute({ name, email, password, avatarSeed } as UserData)
+            const user = await this.createUserService.execute({ name, email, password, avatarSeed } as UserDataDAO)
             if (user) {
                 response.status(203).json({success: true})
             } else {

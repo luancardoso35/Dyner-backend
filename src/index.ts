@@ -16,8 +16,7 @@ app.use('/venues', venuesRouter)
 app.use('/venue', venueRouter)
 app.use('/user', userRouter)
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+app.listen(3030, () => {
 });
 
 export { app }
