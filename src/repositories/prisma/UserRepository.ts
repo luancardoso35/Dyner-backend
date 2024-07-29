@@ -23,6 +23,23 @@ export class UserRepository implements IUserRepository {
         throw new Error("Method not implemented.");
     }
 
+    async getByName(name: string, username: string): Promise<UserDataDAO[] | null> {
+        const users = await prisma.user.findMany({
+            where: {
+                name: {
+                    contains: name,
+                    not: username
+                }
+            }
+        })
+
+        if (users) {
+            return users as UserDataDAO[];
+        }
+
+        return null;
+    }
+
     async getByEmail(email: string, password: string): Promise<UserDataDAO | null> {
         const user = await prisma.user.findFirst({
             where: {

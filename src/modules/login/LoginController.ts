@@ -20,8 +20,8 @@ class LoginController {
             return
         }
 
-        const token = jwt.sign({ user }, env.SECRET, {
-            expiresIn: 60*60*1,
+        const token = jwt.sign({ user }, new TextEncoder().encode(env.SECRET), {
+            expiresIn: 60*60*24*365,
             issuer: 'dyner.luan'
         })
 

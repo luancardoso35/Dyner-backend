@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { createUserFactory } from "../modules/createUser/CreateUserFactory";
 import { loginFactory } from "../modules/login/LoginFactory";
+import { searchUserFactory } from "../modules/searchUser/SearchUserFactory";
 
 var express = require('express');
 
@@ -12,6 +13,10 @@ userRouter.post('/sign-up', function (request: Request, response: Response) {
 
 userRouter.post('/sign-in', function (request: Request, response: Response) {
     loginFactory().handle(request, response)
+})
+
+userRouter.get('/search', function (request: Request, response: Response) {
+    searchUserFactory().handle(request, response)
 })
 
 export default userRouter
