@@ -1,9 +1,9 @@
-import { UUID } from "crypto";
-
 export interface UserDataDAO {
-    id?: UUID
+    id?: string
     name: string,
     email: string,
     password: string,
+    createdAt: Date,
+    friends?: UserDataDAO[],
     avatarSeed: string,
 }

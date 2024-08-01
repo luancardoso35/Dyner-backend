@@ -29,8 +29,7 @@ venuesRouter.get('/', async(req: Request, res: Response) => {
         const searchQuery = (req.query.searchQuery as string)
         const data = await getVenuesFromFoursquare(lat, lng, offset, searchQuery);
         res.status(200).json({ success: true, data })
-    }
-    
+    }  
 })
 
 module.exports = venuesRouter;

@@ -19,8 +19,35 @@ export class UserRepository implements IUserRepository {
         return user;
     }
 
-    getById(uuid: UUID): UserDataDAO {
-        throw new Error("Method not implemented.");
+    async getById(uuid: string): Promise<UserDataDAO | null> {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: uuid
+            },
+            include: {
+                friends: true
+            }
+        })
+
+        if (user) {
+            return user as UserDataDAO;
+        }
+
+        return null;
+    }
+
+    async getByIds(ids: string[]): Promise<UserDataDAO[]> {
+        const users = await prisma.user.findMany({
+            where: {
+                id: { in: ids }
+            }
+        })
+
+        if (users) {
+            return users as UserDataDAO[];
+        }
+
+        return [];
     }
 
     async getByName(name: string, username: string): Promise<UserDataDAO[] | null> {
@@ -53,4 +80,26 @@ export class UserRepository implements IUserRepository {
 
         return null;
     }
+
+    async addFriend(newFriendId: string, userId: string): Promise<UserDataDAO | null> {
+        try {
+            const loggedUser = await prisma.user.update({
+                where: {
+                    id: userId
+                },
+                data: {
+                    friends: {
+                        connect: {id: newFriendId}
+                    }
+                },
+                include: {friends: true}
+            })
+            return loggedUser ?? null;
+        } catch (error) {
+            console.log(error)
+            return null;
+        }
+    }
+
+    
 }

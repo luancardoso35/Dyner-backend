@@ -8,11 +8,36 @@ datasource db {
 }
 
 model User {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   avatarSeed String
   name       String
-  email      String @unique
+  email      String   @unique
   password   String
+  createdAt  DateTime @default(now())
+
+  friends                     User[]              @relation("friends")
+  symetricFriends             User[]              @relation("friends")
+  friendshipsRequestsSent     FriendshipRequest[] @relation("FriendshipSent")
+  friendshipsRequestsReceived FriendshipRequest[] @relation("FriendshipReceived")
 
   @@map("users")
+}
+
+model FriendshipRequest {
+  id               String           @id @default(uuid())
+  sender           User             @relation("FriendshipSent", fields: [senderId], references: [id])
+  senderId         String
+  receiver         User             @relation("FriendshipReceived", fields: [receiverId], references: [id])
+  receiverId       String
+  requestedAt      DateTime         @default(now())
+  status           FriendshipStatus @relation("FriendshipStatus", fields: [friendshipStatus], references: [status])
+  friendshipStatus String
+
+  @@unique([senderId, receiverId])
+}
+
+model FriendshipStatus {
+  id                String              @id @default(uuid())
+  status            String              @unique
+  FriendshipRequest FriendshipRequest[] @relation("FriendshipStatus")
 }
