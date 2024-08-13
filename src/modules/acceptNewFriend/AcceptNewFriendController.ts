@@ -13,8 +13,6 @@ class AcceptNewFriendController {
         const userId = request.body.userId
 
         const userWithFriend = await this.acceptNewFriendService.execute(newFriendId, userId);
-        console.log(userWithFriend)
-        return
         if (userWithFriend) {
             return response.status(200).send({success: true, data: userWithFriend});
         } else {

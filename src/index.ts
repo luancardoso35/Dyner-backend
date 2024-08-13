@@ -5,6 +5,8 @@ import userRouter from "./routes/user";
 const venuesRouter = require('./routes/venues')
 const venueRouter = require('./routes/venue')
 const requestsRouter = require('./routes/requests')
+const pollRouter = require('./routes/poll')
+const voteRouter = require('./routes/vote')
 
 dotenv.config();
 
@@ -17,8 +19,10 @@ app.use('/venues', venuesRouter)
 app.use('/venue', venueRouter)
 app.use('/user', userRouter)
 app.use('/request', requestsRouter)
+app.use('/poll', pollRouter)
+app.use('/vote', voteRouter)
 
-app.listen(3030, () => {
+app.listen(port, () => {
 });
 
 export { app }

@@ -5,7 +5,7 @@ class LoginService {
     constructor(private userRepository: UserRepository) {}
 
     async execute({ email, password }: UserLoginDataDAO) {
-        const user = await this.userRepository.getByEmail(email, password)
+        const user = await this.userRepository.getByEmail(email)
 
         if (!user) {
             return null;

@@ -1,11 +1,11 @@
 import { UUID } from "crypto";
-import { UserDataDAO } from "../dao/UserDataDAO"; 
+import { UserDTO } from "../dao/UserDTO"; 
 
 export interface IUserRepository {
-    create({ name, email, password, avatarSeed } : UserDataDAO): Promise<UserDataDAO>;
-    getById( uuid: UUID ): Promise<UserDataDAO | null>;
-    getByIds( ids: UUID[] ): Promise<UserDataDAO[]>;
-    getByName( name: string, username: string ): Promise<UserDataDAO[] | null>;
-    getByEmail( email: string, password: string ): Promise<UserDataDAO | null>;
-    addFriend( newFriendId: string, userId: string ): Promise<UserDataDAO | null>;
+    create({ name, email, password, avatarSeed } : UserDTO): Promise<UserDTO>;
+    getById( uuid: UUID ): Promise<UserDTO | null>;
+    getByIds( ids: UUID[] ): Promise<UserDTO[]>;
+    getByName( name: string, username: string ): Promise<UserDTO[] | null>;
+    getByEmail( email: string): Promise<UserDTO | null>;
+    addFriend( newFriendId: string, userId: string ): Promise<UserDTO | null>;
 }

@@ -15,10 +15,14 @@ model User {
   password   String
   createdAt  DateTime @default(now())
 
-  friends                     User[]              @relation("friends")
-  symetricFriends             User[]              @relation("friends")
+  friends         User[] @relation("friends")
+  symetricFriends User[] @relation("friends")
+
   friendshipsRequestsSent     FriendshipRequest[] @relation("FriendshipSent")
   friendshipsRequestsReceived FriendshipRequest[] @relation("FriendshipReceived")
+
+  polls Poll[]
+  votes Vote[]
 
   @@map("users")
 }
@@ -40,4 +44,60 @@ model FriendshipStatus {
   id                String              @id @default(uuid())
   status            String              @unique
   FriendshipRequest FriendshipRequest[] @relation("FriendshipStatus")
+}
+
+model Poll {
+  id            String   @id @default(uuid())
+  created       DateTime @default(now())
+  closed        Boolean
+  winnerVenueId String
+
+  users  User[]
+  rounds PollRound[]
+}
+
+model PollRound {
+  id                String              @id @default(uuid())
+  poll              Poll                @relation(fields: [pollId], references: [id])
+  pollId            String
+  roundNumber       Int
+  votes             Vote[]
+  venuesOnPollRound VenuesOnPollRound[]
+}
+
+model Vote {
+  id           String         @id @default(uuid())
+  round        PollRound      @relation(fields: [roundId], references: [id])
+  roundId      String
+  user         User           @relation(fields: [userId], references: [id])
+  userId       String
+  votedOn      DateTime       @default(now())
+  venuesOnVote VenuesOnVote[]
+}
+
+model Venue {
+  id                String              @id
+  name              String
+  address           String
+  venuesOnVotes     VenuesOnVote[]
+  venuesOnPollRound VenuesOnPollRound[]
+}
+
+model VenuesOnPollRound {
+  venue       Venue     @relation(fields: [venueId], references: [id])
+  venueId     String
+  pollRound   PollRound @relation(fields: [pollRoundId], references: [id])
+  pollRoundId String
+  chosen      Boolean
+
+  @@unique([pollRoundId, venueId])
+}
+
+model VenuesOnVote {
+  venue   Venue  @relation(fields: [venueId], references: [id])
+  venueId String
+  vote    Vote   @relation(fields: [voteId], references: [id])
+  voteId  String
+
+  @@unique([voteId, venueId])
 }

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { CreateUserService } from "./CreateUserService";
-import { UserDataDAO } from "../../dao/UserDataDAO";
+import { UserDTO } from "../../dao/UserDTO";
 
 class CreateUserController {
     constructor(private createUserService: CreateUserService) {}
@@ -13,7 +13,7 @@ class CreateUserController {
         
         const { name, email, password, avatarSeed } = request.body
         try {
-            const user = await this.createUserService.execute({ name, email, password, avatarSeed } as UserDataDAO)
+            const user = await this.createUserService.execute({ name, email, password, avatarSeed } as UserDTO)
             if (user) {
                 response.status(203).json({success: true})
             } else {

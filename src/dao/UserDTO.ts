@@ -1,9 +1,9 @@
-export interface UserDataDAO {
+export interface UserDTO {
     id?: string
     name: string,
     email: string,
     password: string,
     createdAt: Date,
-    friends?: UserDataDAO[],
+    friends?: UserDTO[],
     avatarSeed: string,
 }

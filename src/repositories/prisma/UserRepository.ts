@@ -1,12 +1,12 @@
 import { UUID } from "crypto";
 import { IUserRepository } from "../IUserRepository";
 import { PrismaClient } from '@prisma/client'
-import { UserDataDAO } from "../../dao/UserDataDAO"; 
+import { UserDTO } from "../../dao/UserDTO"; 
 
 const prisma = new PrismaClient();
 
 export class UserRepository implements IUserRepository {
-    async create({ name, email, password, avatarSeed }: UserDataDAO): Promise<UserDataDAO> {
+    async create({ name, email, password, avatarSeed }: UserDTO): Promise<UserDTO> {
         const user = await prisma.user.create({
             data: {
                 avatarSeed,
@@ -14,12 +14,12 @@ export class UserRepository implements IUserRepository {
                 email,
                 password,
             }
-        }) as UserDataDAO;
+        }) as UserDTO;
 
         return user;
     }
 
-    async getById(uuid: string): Promise<UserDataDAO | null> {
+    async getById(uuid: string): Promise<UserDTO | null> {
         const user = await prisma.user.findUnique({
             where: {
                 id: uuid
@@ -30,13 +30,13 @@ export class UserRepository implements IUserRepository {
         })
 
         if (user) {
-            return user as UserDataDAO;
+            return user as UserDTO;
         }
 
         return null;
     }
 
-    async getByIds(ids: string[]): Promise<UserDataDAO[]> {
+    async getByIds(ids: string[]): Promise<UserDTO[]> {
         const users = await prisma.user.findMany({
             where: {
                 id: { in: ids }
@@ -44,13 +44,13 @@ export class UserRepository implements IUserRepository {
         })
 
         if (users) {
-            return users as UserDataDAO[];
+            return users as UserDTO[];
         }
 
         return [];
     }
 
-    async getByName(name: string, username: string): Promise<UserDataDAO[] | null> {
+    async getByName(name: string, username: string): Promise<UserDTO[] | null> {
         const users = await prisma.user.findMany({
             where: {
                 name: {
@@ -61,13 +61,13 @@ export class UserRepository implements IUserRepository {
         })
 
         if (users) {
-            return users as UserDataDAO[];
+            return users as UserDTO[];
         }
 
         return null;
     }
 
-    async getByEmail(email: string, password: string): Promise<UserDataDAO | null> {
+    async getByEmail(email: string): Promise<UserDTO | null> {
         const user = await prisma.user.findFirst({
             where: {
                 email,
@@ -75,13 +75,13 @@ export class UserRepository implements IUserRepository {
         })
 
         if (user) {
-            return user as UserDataDAO;
+            return user as UserDTO;
         }
 
         return null;
     }
 
-    async addFriend(newFriendId: string, userId: string): Promise<UserDataDAO | null> {
+    async addFriend(newFriendId: string, userId: string): Promise<UserDTO | null> {
         try {
             const loggedUser = await prisma.user.update({
                 where: {

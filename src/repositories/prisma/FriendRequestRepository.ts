@@ -21,7 +21,7 @@ export class FriendRequestRepository implements IFriendRequestRepository {
         }
     }
 
-    async getReceivedRequestsById(id: string): Promise<string[]> {
+    async getReceivedRequestsByUserId(id: string): Promise<string[]> {
         const senders = await prisma.friendshipRequest.findMany({
             where: {
                 receiverId: id,
@@ -30,6 +30,25 @@ export class FriendRequestRepository implements IFriendRequestRepository {
         })
 
         return senders.map(sender => sender.senderId) ?? []
+    }
+
+    async getAllRequestedPeopleById(id: string): Promise<string[]> {
+        console.log(id)
+        const senders = await prisma.friendshipRequest.findMany({
+            where: {
+                receiverId: id,
+                friendshipStatus: "PENDING"
+            }
+        })
+
+        const receivers = await prisma.friendshipRequest.findMany({
+            where: {
+                senderId: id,
+                friendshipStatus: "PENDING"
+            }
+        })
+
+        return [...new Set([...senders.map(sender => sender.senderId), ...receivers.map(receiver => receiver.receiverId)])] ?? []
     }
 
     async handleFriendRequestChange(senderId: string, receiverId: string, accepted: boolean): Promise<boolean> {
