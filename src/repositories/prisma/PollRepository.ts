@@ -1,12 +1,13 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { VenueDTO } from "../../dao/VenueDTO";
 import { IPollRepository } from "../IPollRepository";
 import { PollDTO } from "../../dao/PollDTO";
+import { UserDTO } from "../../dao/UserDTO";
 
 const prisma = new PrismaClient();
 
 export class PollRepository implements IPollRepository {
-    async create(participants: string[], venues: VenueDTO[]): Promise<boolean> {
+    async create(participants: string[], venues: VenueDTO[]): Promise<PollDTO | null> {
             const venuesPersisted = await prisma.venue.findMany({
                 where: {
                     id: {
@@ -53,10 +54,11 @@ export class PollRepository implements IPollRepository {
             })
 
             if (pollRound) {
-                return true
+                return poll
             }
 
-            return false;
+            return null;
+
     }
 
     async getByUserId(userId: string): Promise<PollDTO[]> {
@@ -68,7 +70,36 @@ export class PollRepository implements IPollRepository {
                     }
                 }
             },
-            include: { users: true }
+            include: { users: true },
+            orderBy: { created: 'desc'}
         }) || []
     }
+
+    async getParticipants(pollId: string): Promise<number> {
+        const users = await prisma.poll.findFirst({
+            where: {
+                id: pollId
+            },
+            select: {
+                users: true
+            }
+        })
+
+        return users?.users.length ?? 0
+    }
+
+    async setWinner(pollId: string, placeId: string): Promise<PollDTO> {
+        const updatedPoll = await prisma.poll.update({
+            where: {
+                id: pollId
+            },
+            data: {
+                ...placeId !== '' && { winnerVenueId: placeId },
+                closed: true,
+            }
+        })
+
+        return updatedPoll
+    }
+
 }

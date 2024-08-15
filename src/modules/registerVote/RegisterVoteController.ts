@@ -15,8 +15,11 @@ class RegisterVoteController {
         const roundId = request.body.roundId as string
         const places = request.body.places as VenueDTO[]
 
-        const voteWasCreated = await this.registerVoteService.execute(roundId, places, userId);
-        return response.status(voteWasCreated ? 200 : 500).send({success: voteWasCreated});
+        const voteResponse = await this.registerVoteService.execute(roundId, places, userId);
+        return response.status(200).send({
+            success: true, 
+            ...voteResponse
+        });
     }
 }
 

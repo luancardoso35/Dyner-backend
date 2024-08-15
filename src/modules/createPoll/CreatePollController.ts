@@ -11,10 +11,12 @@ class CreatePollController {
         }
         const participants = request.body.participants as string[]
         const venues = request.body.venues as any
-
         
-        const pollWasCreated = await this.createPollService.execute(participants, venues);
-        return response.status(200).send({success: pollWasCreated});
+        const poll = await this.createPollService.execute(participants, venues);
+        if (poll) {
+            return response.status(200).send({success: true, data: poll});
+        }
+        return response.status(500).send({success: false, message: "Server error"})
     }
 }
 

@@ -11,7 +11,6 @@ class GetPersistedVenueController {
         } 
 
         const ids = request.params.ids.split(',') as string[]
-
         const venues = await this.getPersistedVenueService.execute(ids);    
         if (venues) {
             response.status(200).json({ success: true, data: venues });

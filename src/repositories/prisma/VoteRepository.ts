@@ -6,7 +6,12 @@ import { IVoteRepository } from "../IVoteRepository";
 const prisma = new PrismaClient();
 
 export class VoteRepository implements IVoteRepository {
-    async create(roundId: string, chosenVenues: VenueDTO[], userId: string): Promise<boolean> {
+    async create(roundId: string, chosenVenues: VenueDTO[], userId: string): Promise<{
+        id: string;
+        roundId: string;
+        userId: string;
+        votedOn: Date;
+    }> {
         const vote = await prisma.vote.create({
             data: {
                 roundId: roundId,
@@ -26,7 +31,7 @@ export class VoteRepository implements IVoteRepository {
         })
 
         
-        return vote ? true : false; 
+        return vote; 
     }
     
     async getUserVoteInRound(roundId: string, userId: string): Promise<VoteDTO | null> {
@@ -39,5 +44,24 @@ export class VoteRepository implements IVoteRepository {
         }) as VoteDTO
 
         return vote ?? null;
+    }
+
+    async countByRoundId(roundId: string): Promise<number> {
+        return await prisma.vote.count({
+            where: {
+                roundId
+            }
+        })
+    }
+
+    async getAllVotesInRound(roundId: string): Promise<{venuesOnVote: {venueId: string, voteId: string}[]}[]> {
+        return await prisma.vote.findMany({
+            where: {
+                roundId
+            },
+            select: {
+                venuesOnVote: true
+            }
+        })
     }
 }

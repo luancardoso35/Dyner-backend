@@ -33,7 +33,6 @@ export class FriendRequestRepository implements IFriendRequestRepository {
     }
 
     async getAllRequestedPeopleById(id: string): Promise<string[]> {
-        console.log(id)
         const senders = await prisma.friendshipRequest.findMany({
             where: {
                 receiverId: id,

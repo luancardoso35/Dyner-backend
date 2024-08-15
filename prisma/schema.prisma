@@ -88,7 +88,6 @@ model VenuesOnPollRound {
   venueId     String
   pollRound   PollRound @relation(fields: [pollRoundId], references: [id])
   pollRoundId String
-  chosen      Boolean
 
   @@unique([pollRoundId, venueId])
 }
