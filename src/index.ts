@@ -7,6 +7,7 @@ const venueRouter = require('./routes/venue')
 const requestsRouter = require('./routes/requests')
 const pollRouter = require('./routes/poll')
 const voteRouter = require('./routes/vote')
+const accessRouter = require('./routes/access')
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/venues', venuesRouter)
 app.use('/venue', venueRouter)
 app.use('/user', userRouter)
+app.use('/', accessRouter)
 app.use('/request', requestsRouter)
 app.use('/poll', pollRouter)
 app.use('/vote', voteRouter)
