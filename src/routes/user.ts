@@ -24,4 +24,4 @@ userRouter.post('/add-friend', function (request: Request, response: Response) {
     acceptNewFriendFactory().handle(request, response)
 })
 
-export default userRouter
+module.exports = userRouter

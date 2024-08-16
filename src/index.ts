@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 const cors = require('cors')
-import userRouter from "./routes/user";
+const userRouter = require('./routes/user')
 const venuesRouter = require('./routes/venues')
 const venueRouter = require('./routes/venue')
 const requestsRouter = require('./routes/requests')

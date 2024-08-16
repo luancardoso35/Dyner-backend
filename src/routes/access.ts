@@ -13,3 +13,5 @@ accessRouter.post('/sign-up', function (request: Request, response: Response) {
 accessRouter.post('/sign-in', function (request: Request, response: Response) {
     loginFactory().handle(request, response)
 })
+
+module.exports = accessRouter
