@@ -14,7 +14,11 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3030;
 
-app.use(cors())
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://dyner-frontend.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}))
 app.use(express.json());
 app.use('/venues', venuesRouter)
 app.use('/venue', venueRouter)
