@@ -5,7 +5,8 @@ class AcceptNewFriendService {
 
     async execute(newFriendId: string, userId: string) {
         const response = await this.userRepository.addFriend(newFriendId, userId);
-        return response;
+        const secondResponse = await this.userRepository.addFriend(userId, newFriendId);
+        return response && secondResponse;
     }
 }
 
