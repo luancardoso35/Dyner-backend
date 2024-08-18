@@ -19,6 +19,13 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }))
+
+app.use(function (_, res, next) {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With')
+    next()
+})
+
 app.use(express.json());
 app.use('/venues', venuesRouter)
 app.use('/venue', venueRouter)
