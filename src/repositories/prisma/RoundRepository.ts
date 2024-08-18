@@ -49,7 +49,7 @@ export class RoundRepository implements IRoundRepository {
                 roundNumber: lastRoundNumber+1,
                 pollId: pollId,
                 venuesOnPollRound: {
-                    create: venues.map(venue => ({chosen: false, venue: {connect: {id: venue.id}}}))
+                    create: venues.map(venue => ({venue: {connect: {id: venue.id}}}))
                 }
             }
         })

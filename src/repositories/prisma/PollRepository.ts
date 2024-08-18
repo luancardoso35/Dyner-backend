@@ -47,7 +47,7 @@ export class PollRepository implements IPollRepository {
                     roundNumber: 0,
                     pollId: poll.id,
                     venuesOnPollRound: {
-                        create: venues.map(venue => ({chosen: false, venue: {connect: {id: venue.id}}}))
+                        create: venues.map(venue => ({venue: {connect: {id: venue.id}}}))
                     }
                 },
                 
