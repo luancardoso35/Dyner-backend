@@ -14,27 +14,8 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3030;
 
+app.use(cors())
 app.use(express.json())
-app.use(cors({
-    origin: ['http://localhost:3000', 'https://dyner-frontend.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-}))
-
-app.use(function (_, res, next) {
-    res.setHeader('Access-Control-Allow-Credentials', 'true')
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    // another common pattern
-    // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    )
-    next()
-})
-
-app.use(express.json());
 app.use('/venues', venuesRouter)
 app.use('/venue', venueRouter)
 app.use('/user', userRouter)
