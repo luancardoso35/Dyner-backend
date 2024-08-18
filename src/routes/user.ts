@@ -10,7 +10,7 @@ var express = require('express');
 
 const userRouter = express.Router();
 
-userRouter.get('/get-by-id', function (request: Request, response: Response) {
+userRouter.get('/', function (request: Request, response: Response) {
     getUserFactory().handle(request, response)
 })
 
