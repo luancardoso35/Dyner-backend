@@ -50,7 +50,7 @@ export class UserRepository implements IUserRepository {
         return [];
     }
 
-    async getByName(name: string, username: string): Promise<UserDTO[] | null> {
+    async getByName(name: string, username: string): Promise<UserDTO[]> {
         const users = await prisma.user.findMany({
             where: {
                 name: {
@@ -60,11 +60,7 @@ export class UserRepository implements IUserRepository {
             }
         })
 
-        if (users) {
-            return users as UserDTO[];
-        }
-
-        return null;
+        return users as UserDTO[] || [];
     }
 
     async getByEmail(email: string): Promise<UserDTO | null> {

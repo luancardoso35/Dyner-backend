@@ -16,7 +16,7 @@ class SearchUserController {
         if (users) {
             response.status(200).json({success: true, data: users})
         } else {
-            response.status(404).json({success: false, message: 'No users found'})        
+            response.status(404).json({success: false, message: 'Server error'})        
         }
     }
 }
