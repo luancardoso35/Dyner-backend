@@ -8,4 +8,5 @@ export interface IUserRepository {
     getByName( name: string, username: string ): Promise<UserDTO[] | null>;
     getByEmail( email: string): Promise<UserDTO | null>;
     addFriend( newFriendId: string, userId: string ): Promise<UserDTO | null>;
+    updatePassword( newPassword: string, userId: string ): Promise<boolean>;
 }

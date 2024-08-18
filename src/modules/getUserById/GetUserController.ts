@@ -9,7 +9,7 @@ class GetUserController {
             response.status(400).send({success: false, message: "Bad request"})
             return 
         }
-        const userId = request.query.userId as string
+        const userId = request.query.id as string
 
         const user = await this.userService.execute(userId);
         if (user) {
