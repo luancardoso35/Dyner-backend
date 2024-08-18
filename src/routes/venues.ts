@@ -11,10 +11,11 @@ async function getVenuesFromFoursquare(lat: number, lng: number, offset: number,
         radius: '8000',
         categoryId: '13000',
         oauth_token: process.env.FOURSQUAREAPITOKEN,
-        limit: 20,
-        offset: 20*offset,
+        limit: 18,
+        offset: 18*offset,
         ...(searchQuery !== '' && {query: searchQuery}),
     }})
+    console.log(res.data)
     return res.data
 }
 
