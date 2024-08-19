@@ -15,7 +15,6 @@ async function getVenuesFromFoursquare(lat: number, lng: number, offset: number,
         offset: 18*offset,
         ...(searchQuery !== '' && {query: searchQuery}),
     }})
-    console.log(res.data)
     return res.data
 }
 
